@@ -1,0 +1,80 @@
+#include <iostream> // Include input-output stream header for cin and cout
+#include <string> // Include string header
+using namespace std; // Use namespace
+
+int main()
+{
+    string datetime; // Variable to store the input datetime string
+    getline(cin, datetime); // Read input from the console (using cin) and store it in the variable datetime
+
+    if (datetime.length() != 19) // Use 19 because "YYYY-MM-DD HH:MM:SS" adds up to 19, including the punctuations. Length tells you it tells you how long a string is, "!=" means "not equal to"
+    {
+        cout << "Invalid datetime format";
+        return 0; // 1 is indicating cancellation of program if invalid
+    }
+    if (datetime[4] != '-' ) 
+    {
+    cout << "Invalid, Missing dash after year.\n";
+    return 1; // 1 is indicating cancellation of program if formatted wrong
+    }
+    if (datetime[7] != '-') 
+    {
+    cout << "Invalid format: Missing dash after month.\n";
+    return 1; // 1 is indicating cancellation of program if formatted wrong
+    }
+    if (datetime[10] != ' ') 
+    {
+    cout << "Invalid format: Missing space between date and time.\n";
+    return 1; // 1 is indicating cancellation of program if formatted wrong
+    }
+    if (datetime[13] != ':') 
+    {
+    cout << "Invalid format: Missing colon between hour and minutes.\n";
+    return 1; // 1 is indicating cancellation of program if formatted wrong
+    }
+    if (datetime[16] != ':') 
+    {
+    cout << "Invalid format: Missing colon between minutes and seconds.\n";
+    return 1; // 1 is indicating cancellation of program if formatted wrong
+    }
+    if (datetime.length() != 19)  // If the length is 19, we can proceed
+    {
+    cout << "Invalid datetime format.\n";
+    return 1;
+    } 
+    string year = datetime.substr(0,4);
+    string month = datetime.substr(5,2);
+    string day = datetime.substr(8,2);
+    string hour = datetime.substr(11,2);
+    string minutes = datetime.substr(14,2);
+    
+    string MonthName[] = {"January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December "};
+    int monthOrder = stoi(month); // stoi converts string to an int
+    string getMonthName = MonthName[monthOrder-1];
+    
+    string time;
+    int convertedHours = stoi(hour);
+    int NewHours;
+    if (convertedHours == 0)
+        NewHours = 12;
+    else
+        NewHours = convertedHours % 12;
+    if (convertedHours >= 12)
+        time = "PM";
+    else
+        time = "AM";
+    string suffix;
+    
+    int convertedDay = stoi(day);
+    if (convertedDay == 1 || convertedDay == 21 || convertedDay == 31)
+        suffix = "st";
+    else if (convertedDay == 2 || convertedDay == 22)
+        suffix = "nd";
+    else if (convertedDay == 3 || convertedDay == 23)
+        suffix = "rd";
+    else 
+        suffix = "th";
+    cout << day << suffix <<" of " << getMonthName << ", " << year << " at " << NewHours << ":" << minutes << " " << time << endl;
+
+    return 0; // Program ends successfully if there are no errors
+}
